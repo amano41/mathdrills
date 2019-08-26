@@ -1,3 +1,5 @@
+import bisect
+import itertools
 import random
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
@@ -15,13 +17,33 @@ def main():
 def _make(num=20):
 
     eq = list()
+    wt = list()
 
     for ans in range(1, 11):
+        w = 10 / (ans + 1)
         for t1 in range(0, ans + 1):
             t2 = ans - t1
             eq.append((ans, t1, t2))
+            wt.append(w)
 
-    return random.sample(eq, num)
+    result = list()
+
+    for i in range(num):
+        n = len(eq)
+        r = _sample(range(n), wt)
+        v = eq[r]
+        result.append(v)
+        del eq[r]
+        del wt[r]
+
+    return result
+
+
+def _sample(sequence, weights):
+
+    w = list(itertools.accumulate(weights))
+    i = bisect.bisect(w, random.random() * w[-1])
+    return sequence[i]
 
 
 def _save(filename, equations):
