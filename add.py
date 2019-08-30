@@ -1,6 +1,7 @@
 import bisect
 import itertools
 import random
+import sys
 from reportlab.pdfgen import canvas
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
@@ -10,7 +11,17 @@ from reportlab.lib.units import mm
 
 def main():
 
-    eq = _make()
+    f = dict()
+    f[1] = _make
+    f[2] = _make_carrying
+
+    if len(sys.argv) == 1:
+        lv = 1
+    else:
+        lv = int(sys.argv[1])
+
+    eq = f[lv]()
+
     _save('mathdrill.pdf', eq)
 
 
@@ -26,20 +37,43 @@ def _make(num=20):
             eq.append((ans, t1, t2))
             wt.append(w)
 
+    return _sample(eq, wt, num)
+
+
+def _make_carrying(num=20):
+
+    eq = list()
+    wt = list()
+
+    for ans in range(11, 19):
+        w = 8 / (19 - ans)
+        for t1 in range(ans - 9, 10):
+            t2 = ans - t1
+            eq.append((ans, t1, t2))
+            wt.append(w)
+
+    return _sample(eq, wt, num)
+
+
+def _sample(population, weights, k=1):
+
     result = list()
 
-    for i in range(num):
-        n = len(eq)
-        r = _sample(range(n), wt)
-        v = eq[r]
+    p = population[:]
+    w = weights[:]
+
+    for i in range(k):
+        n = len(p)
+        r = _choice(range(n), w)
+        v = p[r]
         result.append(v)
-        del eq[r]
-        del wt[r]
+        del p[r]
+        del w[r]
 
     return result
 
 
-def _sample(sequence, weights):
+def _choice(sequence, weights):
 
     w = list(itertools.accumulate(weights))
     i = bisect.bisect(w, random.random() * w[-1])
