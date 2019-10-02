@@ -34,7 +34,7 @@ def _make_1d_1d(num=20):
     wt = list()
 
     for ans in range(1, 11):
-        w = 10 / (ans + 1)
+        w = 11 / (ans + 1)
         for t1 in range(0, ans + 1):
             t2 = ans - t1
             eq.append((t1, t2, ans))
