@@ -14,6 +14,7 @@ def main():
     f = dict()
     f[1] = _make_1d_1d
     f[2] = _make_1d_1d_carrying
+    f[3] = _make_2d_1d
 
     if len(sys.argv) == 1:
         lv = 1
@@ -59,6 +60,35 @@ def _make_1d_1d_carrying(num=20):
             wt.append(w)
 
     return _sample(eq, wt, num)
+
+
+def _make_2d_1d(num=20):
+    """
+    2 桁 + 1 桁の足し算
+    """
+
+    eq = list()
+    wt = list()
+
+    # 一の位の足し算を作成
+    for ans in range(1, 10):
+        w = 10 / (ans + 1)
+        for t1 in range(0, ans + 1):
+            t2 = ans - t1
+            eq.append((t1, t2, ans))
+            wt.append(w)
+    ones =  _sample(eq, wt, num)
+
+    eq.clear()
+
+    # 十の位を追加
+    tens = [x * 10 for x in range(1, 10)]
+    for t1, t2, ans, in ones:
+        t1 = t1 + random.choice(tens)
+        ans = t1 + t2
+        eq.append((t1, t2, ans))
+
+    return eq
 
 
 def _sample(population, weights, k=1):
