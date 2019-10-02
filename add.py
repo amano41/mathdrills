@@ -37,7 +37,7 @@ def _make_1d_1d(num=20):
         w = 10 / (ans + 1)
         for t1 in range(0, ans + 1):
             t2 = ans - t1
-            eq.append((ans, t1, t2))
+            eq.append((t1, t2, ans))
             wt.append(w)
 
     return _sample(eq, wt, num)
@@ -55,7 +55,7 @@ def _make_1d_1d_carrying(num=20):
         w = 8 / (19 - ans)
         for t1 in range(ans - 9, 10):
             t2 = ans - t1
-            eq.append((ans, t1, t2))
+            eq.append((t1, t2, ans))
             wt.append(w)
 
     return _sample(eq, wt, num)
@@ -104,7 +104,7 @@ def _save(filename, equations):
         x2 = x1 + 20
         y = ymargin + 20 * (i % 10)
         pdf.drawString(x1*mm, y*mm, '({})'.format(i+1))
-        pdf.drawString(x2*mm, y*mm, '{0[1]:^3} + {0[2]:^3} ='.format(eq))
+        pdf.drawString(x2*mm, y*mm, '{0[0]:^3} + {0[1]:^3} ='.format(eq))
 
     pdf.showPage()
     pdf.save()
