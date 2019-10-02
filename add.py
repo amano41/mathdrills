@@ -12,8 +12,8 @@ from reportlab.lib.units import mm
 def main():
 
     f = dict()
-    f[1] = _make
-    f[2] = _make_carrying
+    f[1] = _make_1d_1d
+    f[2] = _make_1d_1d_carrying
 
     if len(sys.argv) == 1:
         lv = 1
@@ -25,7 +25,10 @@ def main():
     _save('mathdrill.pdf', eq)
 
 
-def _make(num=20):
+def _make_1d_1d(num=20):
+    """
+    1 桁 + 1 桁の足し算
+    """
 
     eq = list()
     wt = list()
@@ -40,7 +43,10 @@ def _make(num=20):
     return _sample(eq, wt, num)
 
 
-def _make_carrying(num=20):
+def _make_1d_1d_carrying(num=20):
+    """
+    1 桁 + 1 桁の繰り上がりのある足し算
+    """
 
     eq = list()
     wt = list()
