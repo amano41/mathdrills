@@ -72,12 +72,16 @@ def _make_2d_1d(num=20):
 
     # 一の位の足し算を作成
     for ans in range(1, 10):
-        w = 10 / (ans + 1)
-        for t1 in range(0, ans + 1):
+        n = ans // 2 + 1
+        w = 1 / n
+        for t1 in range(0, n):
             t2 = ans - t1
             eq.append((t1, t2, ans))
             wt.append(w)
     ones =  _sample(eq, wt, num)
+
+    # 項をランダムに入れ替え
+    ones = _swap_random(ones)
 
     eq.clear()
 
@@ -86,6 +90,21 @@ def _make_2d_1d(num=20):
     for t1, t2, ans, in ones:
         t1 = t1 + random.choice(tens)
         ans = t1 + t2
+        eq.append((t1, t2, ans))
+
+    return eq
+
+
+def _swap_random(equations):
+    """
+    項をランダムに入れ替える
+    """
+
+    eq = list()
+
+    for t1, t2, ans in equations:
+        if random.random() >= 0.5:
+            t1, t2 = t2, t1
         eq.append((t1, t2, ans))
 
     return eq
