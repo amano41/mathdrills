@@ -26,7 +26,7 @@ def main():
     _save('mathdrill.pdf', eq)
 
 
-def _make_1d_1d(num=20):
+def _make_1d_1d(num=20, zero=True):
     """
     1 桁 + 1 桁の足し算
     """
@@ -34,14 +34,23 @@ def _make_1d_1d(num=20):
     eq = list()
     wt = list()
 
-    for ans in range(1, 11):
-        w = 11 / (ans + 1)
-        for t1 in range(0, ans + 1):
+    if zero:
+        s = 0
+    else:
+        s = 1
+
+    for ans in range(s + 1, 10):
+        n = ans // 2 + 1
+        w = 1 / (n - s)
+        for t1 in range(s, n):
             t2 = ans - t1
             eq.append((t1, t2, ans))
             wt.append(w)
 
-    return _sample(eq, wt, num)
+    eq = _sample(eq, wt, num)
+    eq = _swap_random(eq)
+
+    return eq
 
 
 def _make_1d_1d_carrying(num=20):
@@ -62,7 +71,7 @@ def _make_1d_1d_carrying(num=20):
     return _sample(eq, wt, num)
 
 
-def _make_2d_1d(num=20):
+def _make_2d_1d(num=20, zero=True):
     """
     2 桁 + 1 桁の足し算
     """
@@ -71,23 +80,11 @@ def _make_2d_1d(num=20):
     wt = list()
 
     # 一の位の足し算を作成
-    for ans in range(1, 10):
-        n = ans // 2 + 1
-        w = 1 / n
-        for t1 in range(0, n):
-            t2 = ans - t1
-            eq.append((t1, t2, ans))
-            wt.append(w)
-    ones =  _sample(eq, wt, num)
-
-    # 項をランダムに入れ替え
-    ones = _swap_random(ones)
-
-    eq.clear()
+    ones =  _make_1d_1d(num, zero)
 
     # 十の位を追加
     tens = [x * 10 for x in range(1, 10)]
-    for t1, t2, ans, in ones:
+    for t1, t2, ans in ones:
         t1 = t1 + random.choice(tens)
         ans = t1 + t2
         eq.append((t1, t2, ans))
