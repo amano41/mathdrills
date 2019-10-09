@@ -15,6 +15,7 @@ def main():
     f[1] = _make_1d_1d
     f[2] = _make_1d_1d_carrying
     f[3] = _make_2d_1d
+    f[4] = _make_2d_2d
 
     if len(sys.argv) == 1:
         lv = 1
@@ -88,6 +89,30 @@ def _make_2d_1d(num=20, zero=True):
         t1 = t1 + random.choice(tens)
         ans = t1 + t2
         eq.append((t1, t2, ans))
+
+    return eq
+
+
+def _make_2d_2d(num=20):
+    """
+    2 桁 + 2 桁の足し算（十の位同士の足し算）
+    """
+
+    eq = list()
+
+    # 十の位のペアを生成
+    tens = _make_1d_1d(num, False)
+
+    # 一の位を追加
+    ones = [x for x in range(1, 10)]
+    for t1, t2, ans in tens:
+        t1 = t1 * 10 + random.choice(ones)
+        t2 = t2 * 10
+        ans = t1 + t2
+        eq.append((t1, t2, ans))
+
+    # 項をランダムに入れ替え
+    eq = _swap_random(eq)
 
     return eq
 
