@@ -41,9 +41,9 @@ def _make_1d_1d(num=20, zero=True):
         s = 1
 
     for ans in range(s + 1, 10):
-        n = ans // 2 + 1
-        w = 1 / (n - s)
-        for t1 in range(s, n):
+        e = ans // 2 + 1
+        w = 1 / (e - s)
+        for t1 in range(s, e):
             t2 = ans - t1
             eq.append((t1, t2, ans))
             wt.append(w)
@@ -63,13 +63,18 @@ def _make_1d_1d_carrying(num=20):
     wt = list()
 
     for ans in range(11, 19):
-        w = 8 / (19 - ans)
-        for t1 in range(ans - 9, 10):
+        s = ans - 9
+        e = ans // 2 + 1
+        w = 1 / (e - s)
+        for t1 in range(s, e):
             t2 = ans - t1
             eq.append((t1, t2, ans))
             wt.append(w)
 
-    return _sample(eq, wt, num)
+    eq = _sample(eq, wt, num)
+    eq = _swap_random(eq)
+
+    return eq
 
 
 def _make_2d_1d(num=20, zero=True):
