@@ -16,6 +16,7 @@ def main():
     f[2] = _make_1d_1d_carrying
     f[3] = _make_2d_1d
     f[4] = _make_2d_2d
+    f[5] = _make_2d_1d_carrying
 
     if len(sys.argv) == 1:
         lv = 1
@@ -118,6 +119,27 @@ def _make_2d_2d(num=20):
 
     # 項をランダムに入れ替え
     eq = _swap_random(eq)
+
+    return eq
+
+
+def _make_2d_1d_carrying(num=20):
+    """
+    2 桁 + 1 桁の繰り上がりのある足し算
+    """
+
+    eq = list()
+
+    # 一の位の繰り上がりのある足し算を作成
+    ones = _make_1d_1d_carrying(num)
+
+    # 十の位を追加
+    # 一の位が繰り上がってくるので 8 まで
+    tens = [x for x in range(1, 9)]
+    for t1, t2, ans in ones:
+        t1 = t1 + random.choice(tens) * 10
+        ans = t1 + t2
+        eq.append((t1, t2, ans))
 
     return eq
 
