@@ -184,6 +184,12 @@ def _choice(sequence, weights):
     return sequence[i]
 
 
+def _print(equations):
+
+    for eq in equations:
+        print("{} + {} = {}".format(*eq))
+
+
 def _save(filename, equations):
 
     pdf = canvas.Canvas(filename, pagesize=landscape(A4), bottomup=False)
