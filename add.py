@@ -17,6 +17,7 @@ def main():
     f[3] = _make_2d_1d
     f[4] = _make_2d_2d
     f[5] = _make_2d_1d_carrying
+    f[6] = _make_2d_2d_both
 
     if len(sys.argv) == 1:
         lv = 1
@@ -138,6 +139,28 @@ def _make_2d_1d_carrying(num=20):
     tens = [x for x in range(1, 9)]
     for t1, t2, ans in ones:
         t1 = t1 + random.choice(tens) * 10
+        ans = t1 + t2
+        eq.append((t1, t2, ans))
+
+    return eq
+
+
+def _make_2d_2d_both(num=20):
+    """
+    2 桁 + 2 桁の足し算（一の位と十の位の両方で足し算）
+    """
+
+    eq = list()
+
+    # 十の位
+    tens = _make_1d_1d(num, False)
+
+    # 一の位
+    ones = _make_1d_1d(num, False)
+
+    for ten, one in zip(tens, ones):
+        t1 = ten[0] * 10 + one[0]
+        t2 = ten[1] * 10 + one[1]
         ans = t1 + t2
         eq.append((t1, t2, ans))
 
