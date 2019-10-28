@@ -186,8 +186,9 @@ def _sample(population, weights, k=1):
 
     result = list()
 
-    p = population[:]
-    w = weights[:]
+    f = k // len(population) + 1
+    p = population[:] * f
+    w = weights[:] * f
 
     for i in range(k):
         n = len(p)
