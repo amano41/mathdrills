@@ -2,11 +2,12 @@ import bisect
 import itertools
 import random
 import sys
-from reportlab.pdfgen import canvas
-from reportlab.pdfbase import pdfmetrics
-from reportlab.pdfbase.ttfonts import TTFont
+
 from reportlab.lib.pagesizes import A4, landscape
 from reportlab.lib.units import mm
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfgen import canvas
 
 
 def main():
@@ -86,10 +87,9 @@ def _make_2d_1d(num=20, zero=True):
     """
 
     eq = list()
-    wt = list()
 
     # 一の位の足し算を作成
-    ones =  _make_1d_1d(num, zero)
+    ones = _make_1d_1d(num, zero)
 
     # 十の位を追加
     tens = [x * 10 for x in range(1, 10)]
@@ -267,8 +267,8 @@ def _save(filename, equations):
         x1 = xmargin + 128.5 * ((i // 10) % 2)
         x2 = x1 + 20
         y = ymargin + 20 * (i % 10)
-        pdf.drawString(x1*mm, y*mm, '({})'.format(i+1))
-        pdf.drawString(x2*mm, y*mm, '{0[0]:^3} + {0[1]:^3} ='.format(eq))
+        pdf.drawString(x1 * mm, y * mm, '({})'.format(i + 1))
+        pdf.drawString(x2 * mm, y * mm, '{0[0]:^3} + {0[1]:^3} ='.format(eq))
 
     pdf.showPage()
     pdf.save()
